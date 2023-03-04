@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shshacks23/HomePage.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -46,6 +47,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   final user = await _auth.signInWithEmailAndPassword(
                     email: _email.text,
                     password: _password.text,
+                  );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomePage()),
                   );
                   // if (user != null) {
                   //   Navigator.pushReplacementNamed(context, '/home');
