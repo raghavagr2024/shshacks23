@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "39579069719",
+    "project_id": "wellness-shshacks",
+    "storage_bucket": "wellness-shshacks.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:39579069719:android:048fcbe4eee40e806b9b52",
+        "android_client_info": {
+          "package_name": "com.example.shshacks23"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "39579069719-4s9i9ccpunk6b239ujo56kkmg9b3d52r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuAbbAKL1NYcbS2S-XVzj5i2-2q7iDLDQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "39579069719-4s9i9ccpunk6b239ujo56kkmg9b3d52r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
