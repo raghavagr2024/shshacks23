@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'SignupPage.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -29,8 +30,6 @@ class _LoginScreenState extends State<LoginScreen> {
               decoration: InputDecoration(
                 labelText: 'Email',
               ),
-              
-              
             ),
             SizedBox(height: 16.0),
             TextField(
@@ -50,9 +49,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     email: _email.text,
                     password: _password.text,
                   );
-                  // if (user != null) {
-                  //   Navigator.pushReplacementNamed(context, '/home');
-                  // }
                   print('in verification');
                 } catch (e) {
                   
@@ -76,9 +72,27 @@ class _LoginScreenState extends State<LoginScreen> {
                 }
               },
             ),
+            Center(
+              child: SignupButtonSender()
+            ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class SignupButtonSender extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SignupPage()),
+        );
+      },
+      child: Text("Don't have an account? Register"),
     );
   }
 }

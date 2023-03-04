@@ -7,10 +7,22 @@ class FirstPage extends StatelessWidget{
     return Scaffold(
       body: Column(
         children: [
+<<<<<<< Updated upstream
           SizedBox(height: 100,),
           LoginButtonSender(),
           SizedBox(height: 50,),
           SignupButtonSender()
+=======
+          SizedBox(
+            height: 100,
+          ),
+          Center(
+            child: LoginButtonSender(),
+          ),
+          Center(
+            child: SignupButtonSender(),
+          ),
+>>>>>>> Stashed changes
         ],
       ),
     );
