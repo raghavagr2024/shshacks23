@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shshacks23/LoginPage.dart';
 import 'package:shshacks23/SignupPage.dart';
 
 class FirstPage extends StatelessWidget {
@@ -29,7 +30,12 @@ class LoginButtonSender extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => LoginScreen()),
+        );
+      },
       child: Text("Login"),
     );
   }

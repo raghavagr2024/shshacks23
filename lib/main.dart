@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'FirstPage.dart';
-import 'login.dart';
+import 'LoginPage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,8 +17,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       home: Scaffold(
-          appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0.0,),
-          body: LoginScreen()
+          body: FirstPage()
       ),
     );
 
