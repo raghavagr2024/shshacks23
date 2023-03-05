@@ -50,14 +50,14 @@ class _HomePage extends State<HomePage>{
 
   Widget getPage(int index){
     if(index == 0){
-      return RecordingPage();
+      return CameraAwesomeApp();
     }
     else if (index == 1){
       getRatingsData();
       return  GraphPage();
     }
     else {
-      return NostalgiaPage();
+      return VideoPlayerApp();
     }
   }
   void _onItemTapped(int i) {

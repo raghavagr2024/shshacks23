@@ -113,9 +113,26 @@ class SignupButton extends StatelessWidget {
     } catch (e) {
       print(e);
     }
+    final FirebaseAuth auth = FirebaseAuth.instance;
+
+    final User? user = auth.currentUser;
+
+    if(user != null){
+      uid = user.uid;
+    }
     print("user created");
     getRatingsData();
-    controller = VideoPlayerController.network(await storageRef.child("testuser/IMG_3645[1].MOV").getDownloadURL());
+    print("got ratings data");
+
+    try{
+      controller = VideoPlayerController.network(await storageRef.child("${uid}/${DateTime.now().year-1}-${DateTime.now().month}-${DateTime.now().day}").getDownloadURL());
+    }
+    catch(e){
+      controller =  VideoPlayerController.network("https://www.youtube.com/watch?v=ZU0f8_C5Pm0");
+    }
+    print("got controller");
+
+
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => HomePage()),

@@ -11,7 +11,8 @@ import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 List<RatingsData> data = [];
-
+var controller;
+var uid = "";
 final storageRef = FirebaseStorage.instance.ref();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +29,7 @@ Future<void> main() async {
     ],
     debug: true,
   );
-  Timer mytimer = Timer.periodic(Duration(seconds: 120), (timer) {
+  Timer mytimer = Timer.periodic(Duration(seconds: 5), (timer) {
     pushNotifications();
   });
 
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
           appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0.0,),
-          body: LoginScreen()
+          body: FirstPage()
       ),
     );
 
