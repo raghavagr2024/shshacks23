@@ -15,14 +15,12 @@ class SignupPage extends StatelessWidget {
       body: Column(
         children: [
           const SizedBox(
-            height: 70,
+            height: 50,
           ),
-
           EmailTextField(),
-
-          SizedBox(height: 70,),
+          SizedBox(height: 50,),
            PasswordTextField(),
-          SizedBox(height: 70,),
+          SizedBox(height: 50,),
 
          SignupButton(),
 
@@ -113,9 +111,9 @@ class SignupButton extends StatelessWidget {
     } catch (e) {
       print(e);
     }
-    final FirebaseAuth auth = FirebaseAuth.instance;
+    final  FirebaseAuth auth = FirebaseAuth.instance;
 
-    final User? user = auth.currentUser;
+    User? user = auth.currentUser;
 
     if(user != null){
       uid = user.uid;
@@ -128,7 +126,7 @@ class SignupButton extends StatelessWidget {
       controller = VideoPlayerController.network(await storageRef.child("${uid}/${DateTime.now().year-1}-${DateTime.now().month}-${DateTime.now().day}").getDownloadURL());
     }
     catch(e){
-      controller =  VideoPlayerController.network("https://www.youtube.com/watch?v=ZU0f8_C5Pm0");
+      controller =  controller =  VideoPlayerController.network(await storageRef.child("default/wellbeing.mp4").getDownloadURL());
     }
     print("got controller");
 

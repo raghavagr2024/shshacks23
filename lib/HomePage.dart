@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'GraphPage.dart';
 import 'NostalgiaPage.dart';
@@ -48,7 +49,7 @@ class _HomePage extends State<HomePage>{
     );
   }
 
-  Widget getPage(int index){
+  Widget getPage(int index) {
     if(index == 0){
       return CameraAwesomeApp();
     }
