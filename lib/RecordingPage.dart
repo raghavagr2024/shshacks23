@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shshacks23/main.dart';
+import 'package:http/http.dart';
 
 void main() {
   runApp(const CameraAwesomeApp());
@@ -31,6 +32,7 @@ class CameraPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CameraAwesomeBuilder.awesome(
+        sensor: Sensors.front,
         saveConfig: SaveConfig.video(
           pathBuilder: () async {
             final Directory extDir = await getTemporaryDirectory();
@@ -49,7 +51,7 @@ class CameraPage extends StatelessWidget {
           storageRef.child(uid).child("${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}").putFile(File(mediaCapture.filePath));
 
 
-
+          http.post(Uri.parse('http://10.215.76.165:5000/video/$uid'));
 
         },
       ),
