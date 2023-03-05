@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shshacks23/HomePage.dart';
+import 'package:shshacks23/main.dart';
 import 'LoginPage.dart';
 
 TextEditingController email = TextEditingController();
@@ -92,10 +94,10 @@ class _PasswordTextField extends State<PasswordTextField> {
 class SignupButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return TextButton(onPressed: () {signupWithEmailAndPassword();}, child: Text("Sign up"));
+    return TextButton(onPressed: () {signupWithEmailAndPassword(context);}, child: Text("Sign up"));
   }
 
-  Future<void> signupWithEmailAndPassword() async {
+  Future<void> signupWithEmailAndPassword(BuildContext context) async {
     try {
       final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email.text,
@@ -111,6 +113,11 @@ class SignupButton extends StatelessWidget {
       print(e);
     }
     print("user created");
+    getRatingsData();
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => HomePage()),
+    );
   }
 }
 

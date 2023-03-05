@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'GraphPage.dart';
 import 'NostalgiaPage.dart';
 import 'RecordingPage.dart';
+import 'main.dart';
 
 
 class HomePage extends StatefulWidget{
@@ -51,6 +54,7 @@ class _HomePage extends State<HomePage>{
       return RecordingPage();
     }
     else if (index == 1){
+      getRatingsData();
       return  GraphPage();
     }
     else{
@@ -64,3 +68,4 @@ class _HomePage extends State<HomePage>{
   }
 
 }
+

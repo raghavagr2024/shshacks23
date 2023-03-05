@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shshacks23/HomePage.dart';
 import 'SignupPage.dart';
+import 'main.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -50,6 +52,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     password: _password.text,
                   );
                   print('in verification');
+                  getRatingsData();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomePage()),
+                  );
+
                 } catch (e) {
                   
                   showDialog(
