@@ -1,10 +1,3 @@
-<<<<<<< Updated upstream
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'FirstPage.dart';
-import 'login.dart';
-
-=======
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,12 +7,16 @@ import 'FirstPage.dart';
 import 'GraphPage.dart';
 import 'LoginPage.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 List<RatingsData> data = [];
->>>>>>> Stashed changes
+
+final storageRef = FirebaseStorage.instance.ref();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   AwesomeNotifications().initialize(
     null,
     [
@@ -54,8 +51,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-<<<<<<< Updated upstream
-=======
 Future<void> pushNotifications() async {
   AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
     if(!isAllowed){
@@ -63,12 +58,28 @@ Future<void> pushNotifications() async {
     }
   });
 
+  var output = "";
+
+  var prompts = [
+    'Write some encouraging messages for someone who is having a bad day. Do not use the word "I".',
+    'Write some encouraging messages for someone who is having a good day. Do not use the word "I".',
+    'Write some encouraging messages for someone who is having a normal day. Do not use the word "I".'
+  ];
+
+  final openAI = OpenAI.instance.build(token: "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", baseOption: HttpSetup(receiveTimeout: 6000), isLogger: true);
+  final request = CompleteText(prompt: prompts[0], model: kTranslateModelV3, maxTokens: 200);
+
+  openAI.onCompleteStream(request:request).listen((response) => (output = response.toString()))
+          .onError((err) {
+            print("$err");
+  });
+
   AwesomeNotifications().createNotification(
           content: NotificationContent(
             id: 10,
             channelKey: 'basic_channel',
-            title: 'Simple Notification',
-            body: 'Simple Button',
+            title: 'Hi there!',
+            body: output,
           ),
         );
 }
@@ -113,4 +124,3 @@ Future<void> getRatingsData() async {
 
   data = points;
 }
->>>>>>> Stashed changes

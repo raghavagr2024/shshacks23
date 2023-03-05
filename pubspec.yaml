@@ -37,13 +37,15 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_core: ^2.7.0
   firebase_auth: ^4.2.9
-<<<<<<< Updated upstream
-=======
   firebase_storage: ^11.0.14
   syncfusion_flutter_charts: ^20.4.52
   cloud_firestore: ^4.4.3
   awesome_notifications: ^0.7.4+1
->>>>>>> Stashed changes
+  video_player: ^2.5.3
+  chat_gpt_sdk: ^2.0.0
+  better_open_file: ^3.6.4
+  camerawesome: ^1.2.1
+
 
 dev_dependencies:
   flutter_test:
