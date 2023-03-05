@@ -2,20 +2,17 @@ import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
 import torch.optim as optim
-import torch.nn.functional as F
-
-import torchtext
-from torchtext import data
 
 from tqdm.auto import tqdm, trange
 import pandas as pd
 
+import wandb
 # from torchtext.transforms import BERTTokenizer
 from transformers import BertTokenizer, BertModel
 
 # from torchtext.vocab import build_vocab_from_iterator
 
-# VOCAB = "https://huggingface.co/bert-base-uncased/resolve/main/vocab.txt"
+# VOCAB = 'https://huggingface.co/bert-base-uncased/resolve/main/vocab.txt'
 
 
 class BERTGRUSentiment(nn.Module):
@@ -24,7 +21,7 @@ class BERTGRUSentiment(nn.Module):
 
         self.bert = bert
 
-        embedding_dim = bert.config.to_dict()["hidden_size"]
+        embedding_dim = bert.config.to_dict()['hidden_size']
 
         self.rnn = nn.GRU(
             embedding_dim,
@@ -74,16 +71,16 @@ class BERTGRUSentiment(nn.Module):
 class SentimentDataset(Dataset):
     def __init__(self):
         super().__init__()
-        self.df = pd.read_csv("./data/sentiment140_shrunk.csv")
-        self.tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
+        self.df = pd.read_csv('./data/sentiment140_shrunk.csv')
+        self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 
         self.init_token_idx = self.tokenizer.cls_token_id
         self.eos_token_idx = self.tokenizer.sep_token_id
         self.pad_token_idx = self.tokenizer.pad_token_id
         self.unk_token_idx = self.tokenizer.unk_token_id
 
-        self.text = self.df["text"]
-        self.polarity = self.df["polarity"]
+        self.text = self.df['text']
+        self.polarity = self.df['polarity']
 
     def __len__(self):
         return len(self.df)
@@ -106,9 +103,9 @@ def count_params(model):
 
 
 def binary_accuracy(preds, y):
-    """
+    '''
     Returns accuracy per batch, i.e. if you get 8/10 right, this returns 0.8, NOT 8
-    """
+    '''
 
     # round predictions to the closest integer
     rounded_preds = torch.round(torch.sigmoid(preds))
@@ -117,7 +114,7 @@ def binary_accuracy(preds, y):
     return acc
 
 
-def t(model, dl, optimizer, criterion):
+def t(model, dl, optimizer, criterion, epoch):
     epoch_loss = 0
     epoch_acc = 0
 
@@ -125,21 +122,21 @@ def t(model, dl, optimizer, criterion):
 
     for i, batch in enumerate(tqdm(dl, position=1, leave=False)):
         text, polarity = batch
-        text = text.to("cuda", non_blocking=True)
-        polarity = polarity.to("cuda", non_blocking=True)
+        text = text.to('cuda', non_blocking=True)
+        polarity = polarity.to('cuda', non_blocking=True)
 
         optimizer.zero_grad()
 
         pred = model(text).squeeze(1)
         loss = criterion(pred, polarity)
-        """
+        '''
         print(F.softmax(pred, dim=0))
         n_syms = []
         for sym in F.softmax(pred, dim=0):
             n_syms.append(4 if sym > 0.5 else 0)
         n_syms = torch.tensor(n_syms, dtype=torch.float32)
         print(n_syms)
-        """
+        '''
         acc = binary_accuracy(pred, polarity)
 
         loss.backward()
@@ -147,16 +144,34 @@ def t(model, dl, optimizer, criterion):
 
         epoch_loss += loss.item()
         epoch_acc += acc.item()
+
+        wandb.log({'epoch': epoch, 'iter': i,'acc': acc.item(), 'loss': loss.item()})
+
         if i % 5 == 0:
-            tqdm.write(f"Loss: {loss.item()} - Acc: {acc.item()}")
+            tqdm.write(f'Loss: {loss.item()} - Acc: {acc.item()}')
         if i % 1000 == 0:
-            torch.save(model.state_dict(), f"saves/model_at_{i}.pt")
-            torch.save(optimizer.state_dict(), f"saves/optimizer{i}.pt")
+            torch.save(model.state_dict(), f'saves/model_at_{i}.pt')
+            torch.save(optimizer.state_dict(), f'saves/optimizer{i}.pt')
     return epoch_loss / len(dl), epoch_acc / len(dl)
 
 
-if __name__ == "__main__":
-    bert = BertModel.from_pretrained("bert-base-uncased")
+if __name__ == '__main__':
+    wandb.init(
+        project='shshacks2023-sentiment-analysis',
+        
+        # track hyperparameters and run metadata
+        config={
+        'learning_rate': 0.003,
+        'hidden_dim': 256,
+        'output_dim': 1,
+        'n_layers': 2,
+        'bidirectional': True,
+        'dropout': 0.25,
+        'batch_size': 2048,
+        'epochs': 25,
+        }
+    )
+    bert = BertModel.from_pretrained('bert-base-uncased')
 
     HIDDEN_DIM = 256
     OUTPUT_DIM = 1
@@ -170,16 +185,17 @@ if __name__ == "__main__":
 
     model.train()
 
-    # model.load_state_dict( torch.load('./model.pt') )
-    print("loaded model")
+    #model.load_state_dict( torch.load('./saves/model_at_0.pt') )
+    print('loaded model')
 
     for name, param in model.named_parameters():
-        if name.startswith("bert"):
+        if name.startswith('bert'):
             param.requires_grad = False
 
     print(count_params(model))
 
     optimizer = optim.AdamW(model.parameters(), lr=0.003)
+    #optimizer.load_state_dict(torch.load('./saves/model_at_0.pt'))
     criterion = nn.CrossEntropyLoss()
 
     model.cuda()
@@ -198,7 +214,8 @@ if __name__ == "__main__":
     epoches = 25
 
     for epoch in trange(epoches, position=0):
-        print(t(model, dl, optimizer, criterion))
+        print(t(model, dl, optimizer, criterion, epoch))
 
-        torch.save(model.state_dict(), f"./save/model_at_e{epoch}.pt")
-        torch.save(optimizer.state_dict(), f"./save/optim_at_e{epoch}.pt")
+        torch.save(model.state_dict(), f'./saves/model_at_e{epoch}.pt')
+        torch.save(optimizer.state_dict(), f'./saves/optim_at_e{epoch}.pt')
+    wandb.finish()
