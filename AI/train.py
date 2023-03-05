@@ -7,6 +7,7 @@ from tqdm.auto import tqdm, trange
 import pandas as pd
 
 import wandb
+
 # from torchtext.transforms import BERTTokenizer
 from transformers import BertTokenizer, BertModel
 
@@ -145,7 +146,7 @@ def t(model, dl, optimizer, criterion, epoch):
         epoch_loss += loss.item()
         epoch_acc += acc.item()
 
-        wandb.log({'epoch': epoch, 'iter': i,'acc': acc.item(), 'loss': loss.item()})
+        wandb.log({'epoch': epoch, 'iter': i, 'acc': acc.item(), 'loss': loss.item()})
 
         if i % 5 == 0:
             tqdm.write(f'Loss: {loss.item()} - Acc: {acc.item()}')
@@ -158,18 +159,17 @@ def t(model, dl, optimizer, criterion, epoch):
 if __name__ == '__main__':
     wandb.init(
         project='shshacks2023-sentiment-analysis',
-        
         # track hyperparameters and run metadata
         config={
-        'learning_rate': 0.003,
-        'hidden_dim': 256,
-        'output_dim': 1,
-        'n_layers': 2,
-        'bidirectional': True,
-        'dropout': 0.25,
-        'batch_size': 2048,
-        'epochs': 25,
-        }
+            'learning_rate': 0.001,
+            'hidden_dim': 256,
+            'output_dim': 1,
+            'n_layers': 2,
+            'bidirectional': True,
+            'dropout': 0.25,
+            'batch_size': 2048,#-128-128,
+            'epochs': 5,
+        },
     )
     bert = BertModel.from_pretrained('bert-base-uncased')
 
@@ -185,8 +185,9 @@ if __name__ == '__main__':
 
     model.train()
 
-    #model.load_state_dict( torch.load('./saves/model_at_0.pt') )
+    model.load_state_dict( torch.load('./saves/model_at_e1.pt', map_location='cpu') )
     print('loaded model')
+    model.cuda()
 
     for name, param in model.named_parameters():
         if name.startswith('bert'):
@@ -194,26 +195,28 @@ if __name__ == '__main__':
 
     print(count_params(model))
 
-    optimizer = optim.AdamW(model.parameters(), lr=0.003)
-    #optimizer.load_state_dict(torch.load('./saves/model_at_0.pt'))
+    optimizer = optim.AdamW(model.parameters(), lr=0.001)
+    optimizer.load_state_dict(torch.load('./saves/optim_at_e1.pt', map_location='cpu'))
+
+    for g in optimizer.param_groups:
+        g['lr'] = 0.001
     criterion = nn.CrossEntropyLoss()
 
-    model.cuda()
     criterion.cuda()
 
     ds = SentimentDataset()
     dl = DataLoader(
         ds,
-        batch_size=2048,
+        batch_size=2048,#-128-128,
         num_workers=16,
         shuffle=True,
         prefetch_factor=32,
         pin_memory=True,
     )
 
-    epoches = 25
+    epochs = 5
 
-    for epoch in trange(epoches, position=0):
+    for epoch in trange(epochs, position=0):
         print(t(model, dl, optimizer, criterion, epoch))
 
         torch.save(model.state_dict(), f'./saves/model_at_e{epoch}.pt')
