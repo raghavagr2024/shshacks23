@@ -1,11 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 import 'FirstPage.dart';
 import 'GraphPage.dart';
 import 'LoginPage.dart';
 List<RatingsData> data = [];
+var controller;
+final storageRef = FirebaseStorage.instance.ref();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

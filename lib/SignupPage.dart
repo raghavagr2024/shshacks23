@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shshacks23/HomePage.dart';
 import 'package:shshacks23/main.dart';
+import 'package:video_player/video_player.dart';
 import 'LoginPage.dart';
 
 TextEditingController email = TextEditingController();
@@ -114,6 +115,7 @@ class SignupButton extends StatelessWidget {
     }
     print("user created");
     getRatingsData();
+    controller = VideoPlayerController.network(await storageRef.child("testuser/IMG_3645[1].MOV").getDownloadURL());
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => HomePage()),

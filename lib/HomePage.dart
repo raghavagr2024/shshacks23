@@ -58,7 +58,7 @@ class _HomePage extends State<HomePage>{
       return  GraphPage();
     }
     else{
-      return NostalgiaPage();
+      return VideoPlayerScreen();
     }
   }
   void _onItemTapped(int i) {
