@@ -54,7 +54,7 @@ class _HomePage extends State<HomePage>{
     }
     else if (index == 1){
       getRatingsData();
-      return  GraphPage();
+      return GraphPage();
     }
     else {
       return NostalgiaPage();
