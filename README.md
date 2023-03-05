@@ -1,16 +1,14 @@
-# shshacks23
+# Wellness shshacks2023
 
-A new Flutter project.
+You sad? Well download Wellness onto your phone and we'll travel through the journey of mental health together.
 
-## Getting Started
+## Frontend
+We mainly used Flutter and Dart made by Google to code the mobile apps, along side Swift for iOS and Java for android.
+Android Studio, Xcode, Visual Studio Code were the main IDEs used.
+We would like to thank the creators of camerawesome for the package used to record videos, the creators for awesome_notifications for the package used for notifications.
 
-This project is a starting point for a Flutter application.
+## Backend
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## AI
+We self-trained a sentimental modal that takes text and outputs a value between 0-4, 0 being
