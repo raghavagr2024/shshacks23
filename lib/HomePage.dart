@@ -39,7 +39,6 @@ class _HomePage extends State<HomePage>{
             icon: Icon(Icons.access_time),
             label: 'Nostalgia',
           ),
-
         ],
         currentIndex: index,
 
@@ -57,8 +56,8 @@ class _HomePage extends State<HomePage>{
       getRatingsData();
       return  GraphPage();
     }
-    else{
-      return VideoPlayerScreen();
+    else {
+      return NostalgiaPage();
     }
   }
   void _onItemTapped(int i) {

@@ -1,34 +1,76 @@
+<<<<<<< Updated upstream
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'FirstPage.dart';
+import 'login.dart';
+
+=======
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
 import 'FirstPage.dart';
 import 'GraphPage.dart';
 import 'LoginPage.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
+
 List<RatingsData> data = [];
-var controller;
-final storageRef = FirebaseStorage.instance.ref();
+>>>>>>> Stashed changes
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  AwesomeNotifications().initialize(
+    null,
+    [
+            NotificationChannel(
+                    channelKey: 'basic_channel',
+                    channelName: 'Basic notifications',
+                    channelDescription: 'Notification channel for basic tests',
+            ),
+    ],
+    debug: true,
+  );
+  Timer mytimer = Timer.periodic(Duration(seconds: 120), (timer) {
+    pushNotifications();
+  });
+
   runApp(const MyApp());
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
 
     return MaterialApp(
       home: Scaffold(
-          body: FirstPage()
+          appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0.0,),
+          body: LoginScreen()
       ),
     );
 
   }
+}
+
+<<<<<<< Updated upstream
+=======
+Future<void> pushNotifications() async {
+  AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+    if(!isAllowed){
+      AwesomeNotifications().requestPermissionToSendNotifications();
+    }
+  });
+
+  AwesomeNotifications().createNotification(
+          content: NotificationContent(
+            id: 10,
+            channelKey: 'basic_channel',
+            title: 'Simple Notification',
+            body: 'Simple Button',
+          ),
+        );
 }
 
 Future<void> getRatingsData() async {
@@ -71,3 +113,4 @@ Future<void> getRatingsData() async {
 
   data = points;
 }
+>>>>>>> Stashed changes
