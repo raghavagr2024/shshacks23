@@ -40,6 +40,10 @@ dependencies:
   firebase_storage: ^11.0.14
   syncfusion_flutter_charts: ^20.4.52
   cloud_firestore: ^4.4.3
+  camera: ^0.10.3
+  camerawesome: ^1.2.0
+  better_open_file: ^3.6.4
+  path_provider: ^2.0.13
   video_player: ^2.5.3
 
 dev_dependencies:
