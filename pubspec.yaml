@@ -45,6 +45,8 @@ dependencies:
   chat_gpt_sdk: ^2.0.0
   better_open_file: ^3.6.4
   camerawesome: ^1.2.1
+  http: ^0.13.5
+  permission_handler: ^10.2.0
 
 
 dev_dependencies:

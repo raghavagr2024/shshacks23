@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shshacks23/HomePage.dart';
 import 'package:video_player/video_player.dart';
 import 'SignupPage.dart';
@@ -39,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               controller: _password,
             ),
-            SizedBox(height: 32.0),
+            SizedBox(height: 20.0),
             ElevatedButton(
               child: Text('Login'),
               onPressed: () async {
@@ -56,8 +57,19 @@ class _LoginScreenState extends State<LoginScreen> {
                   catch(e){
                     controller =  VideoPlayerController.network("https://www.youtube.com/watch?v=ZU0f8_C5Pm0");
                   }
+                  final FirebaseAuth auth = FirebaseAuth.instance;
+
+                  final User? u = auth.currentUser;
+
+                  if(u != null){
+                    uid = u.uid;
+                  }
                   print("got controller");
                   getRatingsData();
+                  Map<Permission, PermissionStatus> statuses = await [
+                    Permission.camera,
+                    Permission.microphone,
+                  ].request();
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => HomePage()),
