@@ -11,7 +11,7 @@ import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 List<RatingsData> data = [];
-
+var controller;
 final storageRef = FirebaseStorage.instance.ref();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
